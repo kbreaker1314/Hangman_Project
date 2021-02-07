@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Hangman
@@ -13,6 +14,7 @@ namespace Hangman
     //HINTS?
     class Program
     {
+        static List<string> wordGuessed = new List<string>();
         static char[] wordCharacter;
         //give space between letters
         static string space = " ";
@@ -26,23 +28,23 @@ namespace Hangman
         }
         
         //PLEASE CHANGE THE CHAR INPUT TO STRING AND TEST AGAIN BECAUSE arr[j] IS NOT == THE WORD[i]
-        static void Board(string theWord, char input)
+        static void Board(string theWord, string input)
         {
-            char[] arr = new char[theWord.Length];
-            arr.Append(input);
-            int counter = 0;
+            //PROBLEM IS THAT IF THE USER INPUT A CHARACTER THAT ALREADY GUESSED, THE CONSOLE WILL PRINT OUT BOTH CHARS 
+            //POSSIBLE SOLUTION: MAKE THAT IF THERE IS A REPEATED INPUT, IGNORE THE INPUT / ASK USER TO PUT ANOTHER
+            wordGuessed.Add(input);
             for(int i = 0; i < theWord.Length; i++)
             {
-                counter = 0;
-                for(int j = 0; j < arr.Length; j++)
+                int counter = 0;
+                string theWordHolder = theWord[i].ToString();
+                foreach (var n in wordGuessed)
                 {
-                    if(arr[j] == theWord[i])
+                    if(n.Equals(theWordHolder))
                     {
                         Console.Write(theWord[i] + space);
                     }
                     else if (counter != 1)
                     {
-                        Console.WriteLine(arr[j] + theWord[i]);
                         Console.Write('_' + space);
                         counter++;
                     }
@@ -87,7 +89,7 @@ namespace Hangman
                 char input = Console.ReadLine()[0];
                 //saveInput.Append(input);
 
-                Board(copyRealWord, input);
+                Board(copyRealWord, input.ToString());
 
                 //Console.WriteLine(input);
 
