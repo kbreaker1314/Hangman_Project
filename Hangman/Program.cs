@@ -13,7 +13,10 @@ namespace Hangman
     //HINTS?
     class Program
     {
-        static string theRealWord()
+        static char[] wordCharacter;
+        //give space between letters
+        static string space = " ";
+        static string WordGenerate()
         {
             //Going through the list of words and randomize one word for the user to guess
             var generator = new Random();
@@ -21,42 +24,94 @@ namespace Hangman
             int theActualWord = generator.Next(0, arr.Length - 1);
             return arr[theActualWord];
         }
-        static void Board(string passingWord)
+        
+        //PLEASE CHANGE THE CHAR INPUT TO STRING AND TEST AGAIN BECAUSE arr[j] IS NOT == THE WORD[i]
+        static void Board(string theWord, char input)
         {
-            //passing the word from Main and convert into char type and print the spaces required.
-            char[] character = passingWord.ToCharArray();
-            //unnesscary for now
-            char[] fakeWord = character;
-            Console.WriteLine(character);
-            for (int i = 0; i < fakeWord.Length; i++)
+            char[] arr = new char[theWord.Length];
+            arr.Append(input);
+            int counter = 0;
+            for(int i = 0; i < theWord.Length; i++)
             {
-                Console.Write("_ ");
+                counter = 0;
+                for(int j = 0; j < arr.Length; j++)
+                {
+                    if(arr[j] == theWord[i])
+                    {
+                        Console.Write(theWord[i] + space);
+                    }
+                    else if (counter != 1)
+                    {
+                        Console.WriteLine(arr[j] + theWord[i]);
+                        Console.Write('_' + space);
+                        counter++;
+                    }
+                }
             }
         }
-        
+
         static void Main(string[] args)
         {
-            //bool gameRun = true;
-            /// INTRO TO THE GAME
+            //char[] saveInput = { 'a', 'b' };
+            bool gameRun = true;
+            //int numberOfCharacters;
+
+
+            // INTRO TO THE GAME
             Console.WriteLine("Welcome to Hangman\n\n\n");
-            Console.WriteLine("All you have to do is guess the world -- GOODLUCK\n\n");
-            /// Making a copy of the word and pass it to Board method
-            string copyRealWord = theRealWord();
-            Board(copyRealWord);
-            //do
-            //{
-            //    Console.WriteLine("Guess a letter: ");
-            //    char input = Console.ReadLine()[0];
-            //    Console.WriteLine(input);
-            //    
-            //    
-            //
-            //
-            //
-            //    gameRun = false;
-            //} while (gameRun);
-            //
-            //
+            Console.WriteLine("All you have to do is guess the word -- GOODLUCK\n\n");
+
+            // Making a copy of the word and pass it to Board method
+            string copyRealWord = WordGenerate();
+
+            //converting the word to char type
+            wordCharacter = copyRealWord.ToCharArray();
+
+            //Board(wordCharacter, saveInput);
+            //numberOfCharacters = copyRealWord.Length;
+            //char[] arr = new char[numberOfCharacters];
+
+            Console.WriteLine(wordCharacter);
+
+            //printing out the spaces and placeholder for each letter
+            for (int i = 0; i < copyRealWord.Length; i++)
+            {
+                Console.Write("_" + space);
+            }
+
+            do
+            {
+                //LEARNT TODAY CONSOLE.READLINE()[0];
+                // ^ the input will only store the position of this placement ex: "aspq" -> store "a"
+                Console.WriteLine("Guess a letter: ");
+                char input = Console.ReadLine()[0];
+                //saveInput.Append(input);
+
+                Board(copyRealWord, input);
+
+                //Console.WriteLine(input);
+
+                //for ( int i = 0; i < copyRealWord.Length; i++)
+                //{
+                //    if (input == wordCharacter[i])
+                //    {
+                //        wordCharacter[i] = input;
+                //        Console.Write(input + space);
+                //    }
+                //    else
+                //    {
+                //        Console.Write("_" + space);
+                //    }
+                //}
+                
+                
+            
+            
+            
+                //gameRun = false;
+            } while (gameRun);
+            
+            
 
         }
     }
