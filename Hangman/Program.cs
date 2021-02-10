@@ -6,17 +6,18 @@ namespace Hangman
 {
 
     //Objectives:
-    //Making an array to store list of words for user to guess - COMPLETE
-    //Making an array of characters and split the words into chars - COMPLETE
-    //Taking user's input and replace them with the correct word - COMPLETE
-    //Cleaning up left over codes and unnecessary comments 
+    //Making an array to store list of words for user to guess                      [x]
+    //Making an array of characters and split the words into chars                  [x]
+    //Taking user's input and replace them with the correct word                    [x]
+    //Cleaning up left over codes and unnecessary comments                          [x]
+    //Making boardPrint function to clear console and reprint game board            [ ]
 
     //POSSIBLE function:
-    //Having user add a word to guess
-    //HINTS?
+    //Having user add a word to guess                                               [ ]
+    //HINTS?                                                                        [ ]
+    //optimize the method to char type instead of string                            [ ]
     class Program
     {
-        //static List<string> wordGuessed = new List<string>();
         //replaceWord is holding the actual word
         static List<string> replaceWord = new List<string>();
         //holder is holding the '_' and replace as neccessary 
@@ -34,8 +35,7 @@ namespace Hangman
         
         static void Board(string input)
         {
-            //FINALLLYYY FIGURED OUTT THE BOARD METHOD AND IS ABLE TO PRINT USING USER'S INPUT 
-            //for loop check if the input matches up with any letter of the given word, if yes, replace holder with the letter
+            //check if the user input is matching any letter in the word, if yes -- replace the letter with user input
             for (int i = 0; i < replaceWord.Count; i++)
             {
                 if(input == replaceWord[i])
@@ -43,59 +43,16 @@ namespace Hangman
                     holder[i] = input;
                 }
             }
-            //reprint the board after each guesses to update user.
+            //reprint the board after each guesses to update user. console.clear() ?
             foreach ( var n in holder)
             {
                 Console.Write(n + space);
             }
-
-
-            
-
-
-            ///* PROBLEM --- cannot get to not print extra '_' when guessing correctly
-            //int letterCounter = 0;
-            //foreach ( string n in wordGuessed)
-            //{
-            //    if (input.Equals(n))
-            //    {
-            //        letterCounter++;
-            //    }
-            //}
-            //if(letterCounter < 1)
-            //{
-            //    wordGuessed.Add(input);
-            //}
-            //
-            //for(int i = 0; i < theWord.Length; i++)
-            //{
-            //    int counter = 0;
-            //    string theWordHolder = theWord[i].ToString();
-            //    for(int j = 0; j < wordGuessed.Count; j++)
-            //    {
-            //        int counter2 = 0;
-            //        //theWordHolder is still 'a' when wordGuessed[j] --- so it will print out extra _ because counter is less than 1 
-            //        if(wordGuessed[j].Equals(theWordHolder))
-            //        {
-            //            Console.Write(theWord[i] + space);
-            //            counter2++;
-            //        }
-            //        else 
-            //        {
-            //            Console.Write("_" + space);
-            //            counter++;
-            //
-            //        }
-            //    }
-            //}
         }
 
         static void Main(string[] args)
         {
-            //char[] saveInput = { 'a', 'b' };
             bool gameRun = true;
-            //int numberOfCharacters;
-
 
             // INTRO TO THE GAME
             Console.WriteLine("Welcome to Hangman\n\n\n");
@@ -103,13 +60,6 @@ namespace Hangman
 
             // Making a copy of the word and pass it to Board method
             string copyRealWord = WordGenerate();
-
-            //converting the word to char type
-
-            //Board(wordCharacter, saveInput);
-            //numberOfCharacters = copyRealWord.Length;
-            //char[] arr = new char[numberOfCharacters];
-
 
             //printing out the spaces and placeholder for each letter
             for (int i = 0; i < copyRealWord.Length; i++)
@@ -134,30 +84,17 @@ namespace Hangman
                 //LEARNT TODAY CONSOLE.READLINE()[0];
                 // ^ the input will only store the position of this placement ex: "aspq" -> store "a"
                 Console.WriteLine("Guess a letter: ");
-                char input = Console.ReadLine()[0];
-                //saveInput.Append(input);
 
+                //get the first input
+                char input = Console.ReadLine()[0];
+
+                //calling board method 
                 Board(input.ToString());
 
-                //Console.WriteLine(input);
-
-                //for ( int i = 0; i < copyRealWord.Length; i++)
-                //{
-                //    if (input == wordCharacter[i])
-                //    {
-                //        wordCharacter[i] = input;
-                //        Console.Write(input + space);
-                //    }
-                //    else
-                //    {
-                //        Console.Write("_" + space);
-                //    }
-                //}
-                
                 
             
             
-            
+                //stopping the game
                 //gameRun = false;
             } while (gameRun);
             
