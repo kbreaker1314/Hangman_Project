@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+
 
 namespace Hangman
 {
 
     //Objectives:
-    //Making an array to store list of words for user to guess                      [x]
-    //Making an array of characters and split the words into chars                  [x]
-    //Taking user's input and replace them with the correct word                    [x]
-    //Cleaning up left over codes and unnecessary comments                          [x]
-    //Making boardPrint function to clear console and reprint game board            [x]
-    //Method to win the game                                                        [ ]
+    //Making an array to store list of words for user to guess                      [x] 2/06/2021
+    //Making an array of characters and split the words into chars                  [x] 2/06/2021
+    //Taking user's input and replace them with the correct word                    [x] 2/08/2021
+    //Cleaning up left over codes and unnecessary comments                          [x] 2/09/2021
+    //Making boardPrint function to clear console and reprint game board            [x] 2/10/2021
+    //Method to win the game                                                        [x] 2/11/2021
+    //Winning Screen                                                                [ ] 2/12/2021
+    //Guessing wrong conditions                                                     [ ] 2/13/2021
 
     //POSSIBLE function:
     //Having user add a word to guess                                               [ ]
@@ -30,10 +32,11 @@ namespace Hangman
             //Going through the list of words and randomize one word for the user to guess
             var generator = new Random();
             string[] arr = { "awesome", "lovely" };
-            int theActualWord = generator.Next(0, arr.Length - 1);
+            int theActualWord = generator.Next(0, arr.Length);
             return arr[theActualWord];
         }
 
+        //clear the board and reprint updated board + hangman image
         static void BoardReset(List<string> holderList)
         {
             Console.Clear();
@@ -51,7 +54,6 @@ namespace Hangman
                 Console.Write(n + space);
             }
 
-            Console.Write("\n\nGuess a letter: ");
         }
         static void Board(string input)
         {
@@ -101,16 +103,15 @@ namespace Hangman
                     // ^ the input will only store the position of this placement ex: "aspq" -> store "a"
 
                     //get the first input
+                    Console.Write("\n\nGuess a letter: ");
                     char input = Console.ReadLine()[0];
 
                     //calling board method 
                     Board(input.ToString());
 
 
-
-
-                    //stopping the game
-                    //gameRun = false;
+                    // after CheckWin, if there are still blank -- Checkwin = false, therefore gameRun == true ( satisfy second statement )
+                    gameRun = WinCondition.CheckWin(holder) ? false : true;
                 } while (gameRun);
 
             }
