@@ -12,13 +12,17 @@ namespace Hangman
     //Cleaning up left over codes and unnecessary comments                          [x] 2/09/2021
     //Making boardPrint function to clear console and reprint game board            [x] 2/10/2021
     //Method to win the game                                                        [x] 2/11/2021
-    //Winning Screen                                                                [ ] 2/12/2021
+    //Winning Screen                                                                [x] 2/12/2021
     //Guessing wrong conditions                                                     [ ] 2/13/2021
 
     //POSSIBLE function:
+    //Adding more words                                                             [ ]
     //Having user add a word to guess                                               [ ]
     //HINTS?                                                                        [ ]
     //optimize the method to char type instead of string                            [ ]
+
+    //Problems:
+    //When user input nothing -- out of range                                       [ ]
     class Program
     {
         //replaceWord is holding the actual word
@@ -40,14 +44,18 @@ namespace Hangman
         static void BoardReset(List<string> holderList)
         {
             Console.Clear();
-            Console.WriteLine("      _______    ");
-            Console.WriteLine("     ||      |");
-            Console.WriteLine("     ||      |");
-            Console.WriteLine("     ||      |");
-            Console.WriteLine("     ||      |");
-            Console.WriteLine("     ||      |");
-            Console.WriteLine(" =========   |");
-            Console.WriteLine("             |");
+            Console.WriteLine("      ______________  ");
+            Console.WriteLine("     ||             |");
+            Console.WriteLine("     ||             |");
+            Console.WriteLine("     ||             |");
+            Console.WriteLine("     ||      ");
+            Console.WriteLine("     ||      ");
+            Console.WriteLine("     ||      ");
+            Console.WriteLine("     ||      ");
+            Console.WriteLine("     ||      ");
+            Console.WriteLine("     ||      ");
+            Console.WriteLine(" =========   ");
+            Console.WriteLine("             ");
             Console.Write("      ");
             foreach (var n in holderList)
             {
@@ -109,11 +117,23 @@ namespace Hangman
                     //calling board method 
                     Board(input.ToString());
 
-
                     // after CheckWin, if there are still blank -- Checkwin = false, therefore gameRun == true ( satisfy second statement )
                     gameRun = WinCondition.CheckWin(holder) ? false : true;
+                    if (gameRun == false)
+                    {
+                        Console.WriteLine();
+                        //changing text color to Red
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        string winGame = "CONGRATULATIONS, YOU WON!";
+                        //setting text center
+                        Console.SetCursorPosition((Console.WindowWidth - winGame.Length) / 2 - 4, Console.CursorTop);
+                        Console.WriteLine(winGame);
+                        //changing back to default (white)
+                        Console.ResetColor();
+                    }
                 } while (gameRun);
-
+                Console.WriteLine("enter any key to exit....");
+                Console.ReadLine();
             }
 
         }
