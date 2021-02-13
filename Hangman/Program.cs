@@ -13,13 +13,15 @@ namespace Hangman
     //Making boardPrint function to clear console and reprint game board            [x] 2/10/2021
     //Method to win the game                                                        [x] 2/11/2021
     //Winning Screen                                                                [x] 2/12/2021
-    //Guessing wrong conditions                                                     [ ] 2/13/2021
+    //Guessing wrong conditions                                                     [x] 2/13/2021
 
     //POSSIBLE function:
-    //Adding more words                                                             [ ]
-    //Having user add a word to guess                                               [ ]
+    //Adding more words                                                             [ ] 2/14/2021
+    //Having user add a word to guess                                               [ ] 2/14/2021
     //HINTS?                                                                        [ ]
     //optimize the method to char type instead of string                            [ ]
+    //add already guessed letters                                                   [ ]
+    //add alphabet                                                                  [ ]
 
     //Problems:
     //When user input nothing -- out of range                                       [ ]
@@ -35,22 +37,54 @@ namespace Hangman
         {
             //Going through the list of words and randomize one word for the user to guess
             var generator = new Random();
-            string[] arr = { "awesome", "lovely" };
+            string[] arr = { "awesome" };
             int theActualWord = generator.Next(0, arr.Length);
             return arr[theActualWord];
         }
 
         //clear the board and reprint updated board + hangman image
-        static void BoardReset(List<string> holderList)
+        static void BoardReset(List<string> holderList, int countLose)
         {
+            //if-else statement to check for how many turns user is wrong and return hang man image according to the number of wrong guesses
             Console.Clear();
             Console.WriteLine("      ______________  ");
             Console.WriteLine("     ||             |");
             Console.WriteLine("     ||             |");
             Console.WriteLine("     ||             |");
-            Console.WriteLine("     ||      ");
-            Console.WriteLine("     ||      ");
-            Console.WriteLine("     ||      ");
+            if (countLose >= 1)
+            {
+                Console.Write("     ||         ");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("    O    ");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.WriteLine("     ||      ");
+            }
+            
+            if (countLose >= 2)
+            {
+                Console.Write("     ||        ");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("  --(O)-- ");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.WriteLine("     ||      ");
+            }
+            if (countLose >= 3)
+            {
+                Console.Write("     ||        ");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(@"    / \   YOU LOSE!! Nice try tho");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.WriteLine("     ||      ");
+            }
             Console.WriteLine("     ||      ");
             Console.WriteLine("     ||      ");
             Console.WriteLine("     ||      ");
@@ -61,10 +95,11 @@ namespace Hangman
             {
                 Console.Write(n + space);
             }
-
+            Console.WriteLine(countLose);
         }
-        static void Board(string input)
+        static bool Board(string input, int countLose = 0)
         {
+            int keepTrack = 0;
             //check if the user input is matching any letter in the word, if yes -- replace the letter with user input
             for (int i = 0; i < replaceWord.Count; i++)
             {
@@ -72,14 +107,25 @@ namespace Hangman
                 {
                     holder[i] = input;
                 }
+                if (input != replaceWord[i])
+                {
+                    keepTrack++;
+                    if (keepTrack == replaceWord.Count)
+                    {
+                        BoardReset(holder, countLose);
+                        return true;
+                    }
+                }
             }
             //reprint the board after each guesses to update user. console.clear() ?
-            BoardReset(holder);
+            BoardReset(holder, countLose);
+            return false;
         }
 
         static void Main(string[] args)
         {
             bool gameRun = true;
+            int countLose= 0;
 
             // INTRO TO THE GAME
             Console.WriteLine("Welcome to Hangman\n\n\n");
@@ -113,9 +159,13 @@ namespace Hangman
                     //get the first input
                     Console.Write("\n\nGuess a letter: ");
                     char input = Console.ReadLine()[0];
+                    bool keepTheCount = Board(input.ToString());
+                    if (keepTheCount == true) countLose++;
 
-                    //calling board method 
-                    Board(input.ToString());
+                    //calling board method and assign it to keepthecount for wrong guesses
+                    //lesson  learn: have to print board afterward to be able to calculate the new countLose.
+                    Board(input.ToString(), countLose);
+
 
                     // after CheckWin, if there are still blank -- Checkwin = false, therefore gameRun == true ( satisfy second statement )
                     gameRun = WinCondition.CheckWin(holder) ? false : true;
@@ -131,6 +181,7 @@ namespace Hangman
                         //changing back to default (white)
                         Console.ResetColor();
                     }
+                    if (countLose >= 3) gameRun = false;
                 } while (gameRun);
                 Console.WriteLine("enter any key to exit....");
                 Console.ReadLine();
