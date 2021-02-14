@@ -16,8 +16,8 @@ namespace Hangman
     //Guessing wrong conditions                                                     [x] 2/13/2021
 
     //POSSIBLE function:
-    //Adding more words                                                             [ ] 2/14/2021
-    //Having user add a word to guess                                               [ ] 2/14/2021
+    //Having user add a word to guess                                               [x] 2/14/2021
+    //having option to choose from different lists                                  [ ]
     //HINTS?                                                                        [ ]
     //optimize the method to char type instead of string                            [ ]
     //add already guessed letters                                                   [ ]
@@ -27,18 +27,20 @@ namespace Hangman
     //When user input nothing -- out of range                                       [ ]
     class Program
     {
+        static List<string> arr = new List<string>() { "awesome" };
         //replaceWord is holding the actual word
         static List<string> replaceWord = new List<string>();
         //holder is holding the '_' and replace as neccessary 
         static List<string> holder = new List<string>();
         //give space between letters
         static string space = " ";
-        static string WordGenerate()
+        static string WordGenerate(string addWord = "")
         {
             //Going through the list of words and randomize one word for the user to guess
             var generator = new Random();
-            string[] arr = { "awesome" };
-            int theActualWord = generator.Next(0, arr.Length);
+            if (addWord != "") arr.Add(addWord);
+
+            int theActualWord = generator.Next(0, arr.Count);
             return arr[theActualWord];
         }
 
@@ -95,7 +97,7 @@ namespace Hangman
             {
                 Console.Write(n + space);
             }
-            Console.WriteLine(countLose);
+            Console.WriteLine("----The number of wrong guesses: " + countLose);
         }
         static bool Board(string input, int countLose = 0)
         {
@@ -135,6 +137,18 @@ namespace Hangman
             if (startGame == "y")
             {
                 // Making a copy of the word and pass it to Board method
+                Console.WriteLine("Do you want to add a word of your own? Y/N");
+                char answer = Console.ReadLine()[0];
+                while (answer == 'y')
+                {
+                    Console.WriteLine("Word will be generated randomly");
+                    Console.WriteLine("--Enter NOTHING to finish--");
+                    Console.Write("Enter the word you want to add: ");
+                    string addWord = Console.ReadLine();
+                    WordGenerate(addWord);
+                    if (addWord == string.Empty) answer = 'n';
+                }
+
                 string copyRealWord = WordGenerate();
 
                 //converting words from string to char-array and then back to string.
