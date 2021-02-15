@@ -17,36 +17,52 @@ namespace Hangman
 
     //POSSIBLE function:
     //Having user add a word to guess                                               [x] 2/14/2021
-    //having option to choose from different lists                                  [ ]
+    //having option to choose from different lists                                  [x] 2/15/2021
+    //add already guessed letters                                                   [ ] 2/16/2021
+    //add the answer if you lose                                                    [ ] 2/17/2021
     //HINTS?                                                                        [ ]
     //optimize the method to char type instead of string                            [ ]
-    //add already guessed letters                                                   [ ]
     //add alphabet                                                                  [ ]
+    //making case sensitive                                                         [ ]        
+    //show user what they put on their list                                         [ ]
+    //making methods into their own class                                           [ ]
 
     //Problems:
+    //when user input nothing -- for input                                          [ ]
     //When user input nothing -- out of range                                       [ ]
     class Program
     {
-        static List<string> arr = new List<string>() { "awesome" };
+        //list of the words for default list and user's list
+        static List<string> ListOfWords = new List<string>() { "awesome", "lovely", "determined" };
+        static List<string> UserOfWords = new List<string>() { };
+
         //replaceWord is holding the actual word
         static List<string> replaceWord = new List<string>();
         //holder is holding the '_' and replace as neccessary 
         static List<string> holder = new List<string>();
-        //give space between letters
-        static string space = " ";
-        static string WordGenerate(string addWord = "")
+
+
+        static string WordGenerate( bool user = false, string addWord = "")
         {
+            bool userInput = user;
+            int theUserWord = 0;
             //Going through the list of words and randomize one word for the user to guess
             var generator = new Random();
-            if (addWord != "") arr.Add(addWord);
-
-            int theActualWord = generator.Next(0, arr.Count);
-            return arr[theActualWord];
+            //user input to set to only run through if loop for user input 
+            if (addWord != "" && userInput == true)
+            {
+                UserOfWords.Add(addWord);
+                theUserWord = generator.Next(0, UserOfWords.Count);
+            }
+            //get the word from user input generated list
+            if (addWord == "" && userInput == true) return UserOfWords[theUserWord];
+            int theActualWord = generator.Next(0, ListOfWords.Count);
+            return ListOfWords[theActualWord];
         }
-
         //clear the board and reprint updated board + hangman image
         static void BoardReset(List<string> holderList, int countLose)
         {
+            string space = " ";
             //if-else statement to check for how many turns user is wrong and return hang man image according to the number of wrong guesses
             Console.Clear();
             Console.WriteLine("      ______________  ");
@@ -128,6 +144,8 @@ namespace Hangman
         {
             bool gameRun = true;
             int countLose= 0;
+            string copyRealWord = "";
+            bool userInput = false;
 
             // INTRO TO THE GAME
             Console.WriteLine("Welcome to Hangman\n\n\n");
@@ -139,17 +157,24 @@ namespace Hangman
                 // Making a copy of the word and pass it to Board method
                 Console.WriteLine("Do you want to add a word of your own? Y/N");
                 char answer = Console.ReadLine()[0];
+                Console.WriteLine("Word will be generated randomly");
                 while (answer == 'y')
                 {
-                    Console.WriteLine("Word will be generated randomly");
+                    //setting userinput = true so the default list would not override user list
+                    userInput = true;
                     Console.WriteLine("--Enter NOTHING to finish--");
                     Console.Write("Enter the word you want to add: ");
                     string addWord = Console.ReadLine();
-                    WordGenerate(addWord);
+                    WordGenerate(true, addWord);
                     if (addWord == string.Empty) answer = 'n';
+                    copyRealWord = WordGenerate(true, string.Empty);
+                }
+                if ( answer != 'y' && userInput == false)
+                {
+                    copyRealWord = WordGenerate();
                 }
 
-                string copyRealWord = WordGenerate();
+                //possible optimization -- calling WordGenerate twice
 
                 //converting words from string to char-array and then back to string.
                 char[] copyWord = copyRealWord.ToCharArray();
@@ -163,6 +188,7 @@ namespace Hangman
                     holder.Add("_");
                 }
 
+                //generating the board without inputing a word 
                 Board(null);
 
                 do
