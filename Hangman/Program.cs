@@ -18,7 +18,7 @@ namespace Hangman
     //POSSIBLE function:
     //Having user add a word to guess                                               [x] 2/14/2021
     //having option to choose from different lists                                  [x] 2/15/2021
-    //add already guessed letters                                                   [ ] 2/16/2021
+    //add already guessed letters                                                   [x] 2/16/2021
     //add the answer if you lose                                                    [ ] 2/17/2021
     //HINTS?                                                                        [ ]
     //optimize the method to char type instead of string                            [ ]
@@ -142,6 +142,7 @@ namespace Hangman
 
         static void Main(string[] args)
         {
+            List<char> guessedLetter = new List<char>();
             bool gameRun = true;
             int countLose= 0;
             string copyRealWord = "";
@@ -199,6 +200,8 @@ namespace Hangman
                     //get the first input
                     Console.Write("\n\nGuess a letter: ");
                     char input = Console.ReadLine()[0];
+                    //guessLetter variable to print out guessed letter
+                    guessedLetter.Add(input);
                     bool keepTheCount = Board(input.ToString());
                     if (keepTheCount == true) countLose++;
 
@@ -206,6 +209,15 @@ namespace Hangman
                     //lesson  learn: have to print board afterward to be able to calculate the new countLose.
                     Board(input.ToString(), countLose);
 
+                    //printing out guessed letter for user
+                    Console.Write("\n\n Guessed letters are: ");
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    foreach (var n in guessedLetter)
+                    {
+
+                        Console.Write(n + " ");
+                    }
+                    Console.ResetColor();
 
                     // after CheckWin, if there are still blank -- Checkwin = false, therefore gameRun == true ( satisfy second statement )
                     gameRun = WinCondition.CheckWin(holder) ? false : true;
