@@ -233,7 +233,14 @@ namespace Hangman
                         //changing back to default (white)
                         Console.ResetColor();
                     }
-                    if (countLose >= 3) gameRun = false;
+                    if (countLose >= 3)
+                    {
+                        //if the user guessed wrong 3 times, answer is shown in yellow
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine("The answer is: " + copyRealWord);
+                        Console.ResetColor();
+                        gameRun = false;
+                    }
                 } while (gameRun);
                 Console.WriteLine("enter any key to exit....");
                 Console.ReadLine();
