@@ -21,15 +21,15 @@ namespace Hangman
     //add already guessed letters                                                   [x] 2/16/2021
     //add the answer if you lose                                                    [x] 2/17/2021
     //organizing methods into classes and clean up codes                            [x] 2/18/2021
-    //show user what they put on their list                                         [ ] 2/19/2021
+    //show user what they put on their list                                         [x] 2/19/2021
     //HINTS?                                                                        [ ]
     //optimize the method to char type instead of string                            [ ]
-    //add alphabet                                                                  [ ]
-    //making case sensitive                                                         [ ]        
+    //add alphabet                                                                  [ ]    
 
     //Problems:
-    //when user input nothing -- for input                                          [ ]
-    //When user input nothing -- out of range                                       [ ]
+    //Fix case sensitive problem                                                    [ ] 2/20/2021
+    //when user input nothing -- for input                                          [ ] 2/21/2021
+    //When user input nothing -- out of range                                       [ ] 
     class Program
     {
         //list of the words for default list and user's list
@@ -63,10 +63,20 @@ namespace Hangman
                 {
                     //setting userinput = true so the default list would not override user list
                     userInput = true;
+                    Console.SetCursorPosition((Console.WindowWidth - 20) / 2 - 4, Console.CursorTop);
                     Console.WriteLine("--Enter NOTHING to finish--");
                     Console.Write("Enter the word you want to add: ");
                     string addWord = Console.ReadLine();
                     WordGenerating.WordGenerate(true, addWord);
+
+                    //clear the board and print out the list for user to see what they've input
+                    Console.Clear();
+                    Console.Write("\n\nThe current list is: ");
+                    foreach ( var n in UserOfWords)
+                    {
+                        Console.Write(n + " ");
+                    }
+                    Console.WriteLine();
                     if (addWord == string.Empty) answer = 'n';
                     copyRealWord = WordGenerating.WordGenerate(true, string.Empty);
                 }
