@@ -27,9 +27,10 @@ namespace Hangman
     //add alphabet                                                                  [ ]    
 
     //Problems:
-    //Fix case sensitive problem                                                    [ ] 2/20/2021
+    //Fix case sensitive problem                                                    [x] 2/20/2021
     //when user input nothing -- for input                                          [ ] 2/21/2021
     //When user input nothing -- out of range                                       [ ] 
+    //guessing same wrong letter                                                    [ ]
     class Program
     {
         //list of the words for default list and user's list
@@ -66,7 +67,8 @@ namespace Hangman
                     Console.SetCursorPosition((Console.WindowWidth - 20) / 2 - 4, Console.CursorTop);
                     Console.WriteLine("--Enter NOTHING to finish--");
                     Console.Write("Enter the word you want to add: ");
-                    string addWord = Console.ReadLine();
+                    //adding the word in lower case
+                    string addWord = Console.ReadLine().ToLower();
                     WordGenerating.WordGenerate(true, addWord);
 
                     //clear the board and print out the list for user to see what they've input
@@ -110,9 +112,12 @@ namespace Hangman
                     //get the first input
                     Console.Write("\n\nGuess a letter: ");
                     char input = Console.ReadLine()[0];
-                    //guessLetter variable to print out guessed letter
-                    guessedLetter.Add(input);
-                    bool keepTheCount = TheBoard.Board(input.ToString());
+
+                    //guessLetter variable to print out guessed letter in lower case
+                    guessedLetter.Add(char.ToLower(input));
+
+                    //the case sensitive are convereted to lower case
+                    bool keepTheCount = TheBoard.Board(input.ToString().ToLower());
                     if (keepTheCount == true) countLose++;
 
                     //calling board method and assign it to keepthecount for wrong guesses
