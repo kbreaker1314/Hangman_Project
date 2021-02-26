@@ -22,17 +22,15 @@ namespace Hangman
     //add the answer if you lose                                                    [x] 2/17/2021
     //organizing methods into classes and clean up codes                            [x] 2/18/2021
     //show user what they put on their list                                         [x] 2/19/2021
-    //HINTS?                                                                        [ ]
-    //optimize the method to char type instead of string                            [ ]
-    //add alphabet                                                                  [ ]    
+    //HINTS?                                                                        [ ]  
 
     //Problems:
     //Fix case sensitive problem                                                    [x] 2/20/2021
-    //when user input nothing -- for input                                          [ ] 2/21/2021
-    //When user input nothing -- out of range                                       [ ] 
+    //when user input nothing -- for input                                          [x] 2/26/2021
     //guessing same wrong letter                                                    [ ]
     class Program
     {
+
         //list of the words for default list and user's list
         public static List<string> ListOfWords = new List<string>() { "awesome", "lovely", "determined" };
         public static List<string> UserOfWords = new List<string>() { };
@@ -45,9 +43,10 @@ namespace Hangman
         {
             List<char> guessedLetter = new List<char>();
             bool gameRun = true;
-            int countLose= 0;
-            string copyRealWord = "";
+            int countLose = 0;
+            string copyRealWord = "", stringEmpty = "";
             bool userInput = false;
+            char input = ' ';
 
             // INTRO TO THE GAME
             Console.WriteLine("Welcome to Hangman\n\n\n");
@@ -74,7 +73,7 @@ namespace Hangman
                     //clear the board and print out the list for user to see what they've input
                     Console.Clear();
                     Console.Write("\n\nThe current list is: ");
-                    foreach ( var n in UserOfWords)
+                    foreach (var n in UserOfWords)
                     {
                         Console.Write(n + " ");
                     }
@@ -82,7 +81,7 @@ namespace Hangman
                     if (addWord == string.Empty) answer = 'n';
                     copyRealWord = WordGenerating.WordGenerate(true, string.Empty);
                 }
-                if ( answer != 'y' && userInput == false)
+                if (answer != 'y' && userInput == false)
                 {
                     copyRealWord = WordGenerating.WordGenerate();
                 }
@@ -103,16 +102,24 @@ namespace Hangman
 
                 //generating the board without inputing a word 
                 TheBoard.Board(null);
-
                 do
                 {
                     //LEARNT TODAY CONSOLE.READLINE()[0];
                     // ^ the input will only store the position of this placement ex: "aspq" -> store "a"
 
                     //get the first input
-                    Console.Write("\n\nGuess a letter: ");
-                    char input = Console.ReadLine()[0];
+                    do
+                    {
+                        Console.Write("\n\nGuess a letter: ");
+                        stringEmpty = Console.ReadLine();
 
+                        if (!string.IsNullOrEmpty(stringEmpty))
+                        {
+                            input = stringEmpty[0];
+                        }
+                        else Console.WriteLine("\n \nError input. Try again.");
+                    }
+                    while (string.IsNullOrEmpty(stringEmpty));
                     //guessLetter variable to print out guessed letter in lower case
                     guessedLetter.Add(char.ToLower(input));
 
@@ -160,7 +167,6 @@ namespace Hangman
                 Console.WriteLine("enter any key to exit....");
                 Console.ReadLine();
             }
-
         }
     }
 }
