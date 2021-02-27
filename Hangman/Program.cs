@@ -14,6 +14,8 @@ namespace Hangman
     //Method to win the game                                                        [x] 2/11/2021
     //Winning Screen                                                                [x] 2/12/2021
     //Guessing wrong conditions                                                     [x] 2/13/2021
+    //HINTS? --- ONE TRYYY                                                          [x] 2/27/2021
+    //add limited hints that the user can get per round                             [ ] 
 
     //POSSIBLE function:
     //Having user add a word to guess                                               [x] 2/14/2021
@@ -21,8 +23,7 @@ namespace Hangman
     //add already guessed letters                                                   [x] 2/16/2021
     //add the answer if you lose                                                    [x] 2/17/2021
     //organizing methods into classes and clean up codes                            [x] 2/18/2021
-    //show user what they put on their list                                         [x] 2/19/2021
-    //HINTS?                                                                        [ ]  
+    //show user what they put on their list                                         [x] 2/19/2021 
 
     //Problems:
     //Fix case sensitive problem                                                    [x] 2/20/2021
@@ -41,6 +42,7 @@ namespace Hangman
         public static List<string> holder = new List<string>();
         static void Main(string[] args)
         {
+            GetHint getHint = new GetHint();
             List<char> guessedLetter = new List<char>();
             bool gameRun = true;
             int countLose = 0;
@@ -53,11 +55,13 @@ namespace Hangman
             Console.WriteLine("All you have to do is guess the word -- GOODLUCK\n\n");
             Console.WriteLine("enter Y to start: ");
             string startGame = Console.ReadLine();
+            startGame = startGame.ToLower();
             if (startGame == "y")
             {
                 // Making a copy of the word and pass it to Board method
                 Console.WriteLine("Do you want to add a word of your own? Y/N");
                 char answer = Console.ReadLine()[0];
+                answer = char.ToLower(answer);
                 Console.WriteLine("Word will be generated randomly");
                 while (answer == 'y')
                 {
@@ -110,9 +114,13 @@ namespace Hangman
                     //get the first input
                     do
                     {
-                        Console.Write("\n\nGuess a letter: ");
+                        Console.Write("\n Type -/gethint for a free hint \n\nGuess a letter: ");
                         stringEmpty = Console.ReadLine();
-
+                        if (stringEmpty == "/gethint")
+                        {
+                            stringEmpty = getHint.TheHint(replaceWord, holder);
+                        }
+                        //check if string is empty then pass it onto CHAR input if it is not
                         if (!string.IsNullOrEmpty(stringEmpty))
                         {
                             input = stringEmpty[0];
@@ -166,6 +174,10 @@ namespace Hangman
                 } while (gameRun);
                 Console.WriteLine("enter any key to exit....");
                 Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine("Come back when you are ready!!");
             }
         }
     }
