@@ -16,6 +16,7 @@ namespace Hangman
     //Guessing wrong conditions                                                     [x] 2/13/2021
     //HINTS? --- ONE TRYYY                                                          [x] 2/27/2021
     //add limited hints that the user can get per round                             [ ] 
+    //add comments and identifying method clearly                                   [ ]
 
     //POSSIBLE function:
     //Having user add a word to guess                                               [x] 2/14/2021
@@ -28,7 +29,7 @@ namespace Hangman
     //Problems:
     //Fix case sensitive problem                                                    [x] 2/20/2021
     //when user input nothing -- for input                                          [x] 2/26/2021
-    //guessing same wrong letter                                                    [ ]
+    //guessing same wrong letter                                                    [x] 2/28/2021
     class Program
     {
 
