@@ -14,10 +14,9 @@ namespace Hangman
             if (addWord != "" && userInput == true)
             {
                 Program.UserOfWords.Add(addWord);
-                theUserWord = generator.Next(0, Program.UserOfWords.Count);
             }
-            //get the word from user input generated list
-            if (addWord == "" && userInput == true) return Program.UserOfWords[theUserWord];
+            //get the word from user input generated list 
+            if (addWord == "" && userInput == true) return Program.UserOfWords[generator.Next(0, Program.UserOfWords.Count)];
             int theActualWord = generator.Next(0, Program.ListOfWords.Count);
             return Program.ListOfWords[theActualWord];
         }

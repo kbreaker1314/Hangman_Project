@@ -45,7 +45,7 @@ namespace Hangman
             GetHint getHint = new GetHint();
             List<char> guessedLetter = new List<char>();
             bool gameRun = true;
-            int countLose = 0;
+            int countLose = 0, countRepeatedLetter = 0;
             string copyRealWord = "", stringEmpty = "";
             bool userInput = false;
             char input = ' ';
@@ -129,7 +129,18 @@ namespace Hangman
                     }
                     while (string.IsNullOrEmpty(stringEmpty));
                     //guessLetter variable to print out guessed letter in lower case
-                    guessedLetter.Add(char.ToLower(input));
+                    countRepeatedLetter = 0;
+                    foreach ( var n in guessedLetter)
+                    {
+                        if ( n != input )
+                        {
+                            countRepeatedLetter += 1;
+                        }
+                    }
+                    if (countRepeatedLetter == guessedLetter.Count)
+                    {
+                        guessedLetter.Add(char.ToLower(input));
+                    }
 
                     //the case sensitive are convereted to lower case
                     bool keepTheCount = TheBoard.Board(input.ToString().ToLower());
@@ -144,7 +155,6 @@ namespace Hangman
                     Console.ForegroundColor = ConsoleColor.Blue;
                     foreach (var n in guessedLetter)
                     {
-
                         Console.Write(n + " ");
                     }
                     Console.ResetColor();
