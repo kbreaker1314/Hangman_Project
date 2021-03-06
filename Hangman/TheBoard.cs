@@ -7,7 +7,7 @@ namespace Hangman
     class TheBoard
     {
         //return true if letter is wrong
-        public static bool Board(string input, int countLose = 0)
+        public static bool Board(string input, int countLose = 0, int hintCount = 3)
         {
             bool isInputNotFound = true;
             //check if the user input is matching any letter in the word, if yes -- replace the letter with user input
@@ -20,7 +20,7 @@ namespace Hangman
                 }
             }
             //reprint the board after each guesses to update user. console.clear() ?
-            BoardReseting.BoardReset(Program.holder, countLose);
+            BoardReseting.BoardReset(Program.holder, countLose, hintCount);
             return isInputNotFound;
         }
     }

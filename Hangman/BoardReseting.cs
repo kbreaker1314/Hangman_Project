@@ -7,7 +7,7 @@ namespace Hangman
     class BoardReseting
     {
         //clear the board and reprint updated board + hangman image
-        public static void BoardReset(List<string> holderList, int countLose)
+        public static void BoardReset(List<string> holderList, int countLose, int hintCount = 0)
         {
             string space = " ";
             //if-else statement to check for how many turns user is wrong and return hang man image according to the number of wrong guesses
@@ -61,6 +61,7 @@ namespace Hangman
                 Console.Write(n + space);
             }
             Console.WriteLine("----The number of wrong guesses: " + countLose);
+            Console.WriteLine("\nYou have {0} hint(s) left", hintCount);
         }
     }
 }

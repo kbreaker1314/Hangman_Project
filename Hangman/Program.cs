@@ -15,7 +15,8 @@ namespace Hangman
     //Winning Screen                                                                [x] 2/12/2021
     //Guessing wrong conditions                                                     [x] 2/13/2021
     //HINTS? --- ONE TRYYY                                                          [x] 2/27/2021
-    //add limited hints that the user can get per round                             [ ] 
+    //add limited hints that the user can get per round                             [x] 3/06/2021
+    //making the program only process alphabet letter  (line 117 program.cs)        [ ] 3/07/2021
     //add comments and identifying method clearly                                   [ ]
 
     //POSSIBLE function:
@@ -46,7 +47,7 @@ namespace Hangman
             GetHint getHint = new GetHint();
             List<char> guessedLetter = new List<char>();
             bool gameRun = true;
-            int countLose = 0, countRepeatedLetter = 0;
+            int countLose = 0, countRepeatedLetter = 0, hintCount = 3;
             string copyRealWord = "", stringEmpty = "";
             bool userInput = false;
             char input = ' ';
@@ -117,18 +118,23 @@ namespace Hangman
                     {
                         Console.Write("\n Type -/gethint for a free hint \n\nGuess a letter: ");
                         stringEmpty = Console.ReadLine();
-                        if (stringEmpty == "/gethint")
+                        char ch = stringEmpty[0];
+                        if (stringEmpty == "/gethint" && hintCount > 0)
                         {
                             stringEmpty = getHint.TheHint(replaceWord, holder);
+                            hintCount--;
                         }
                         //check if string is empty then pass it onto CHAR input if it is not
-                        if (!string.IsNullOrEmpty(stringEmpty))
+                        if (!string.IsNullOrEmpty(stringEmpty) && Char.IsLetter(ch) == true )
                         {
                             input = stringEmpty[0];
                         }
-                        else Console.WriteLine("\n \nError input. Try again.");
+                        else
+                        {
+                            Console.WriteLine("\n \nError input. Try again.");
+                        }
                     }
-                    while (string.IsNullOrEmpty(stringEmpty));
+                    while (string.IsNullOrEmpty(stringEmpty) || (Char.IsLetter(input) == false));
                     //guessLetter variable to print out guessed letter in lower case
                     countRepeatedLetter = 0;
                     foreach ( var n in guessedLetter)
@@ -149,7 +155,7 @@ namespace Hangman
 
                     //calling board method and assign it to keepthecount for wrong guesses
                     //lesson  learn: have to print board afterward to be able to calculate the new countLose.
-                    TheBoard.Board(input.ToString(), countLose);
+                    TheBoard.Board(input.ToString(), countLose, hintCount);
 
                     //printing out guessed letter for user
                     Console.Write("\n\n Guessed letters are: ");
