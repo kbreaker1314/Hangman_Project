@@ -118,14 +118,13 @@ namespace Hangman
                     {
                         Console.Write("\n Type -/gethint for a free hint \n\nGuess a letter: ");
                         stringEmpty = Console.ReadLine();
-                        char ch = stringEmpty[0];
                         if (stringEmpty == "/gethint" && hintCount > 0)
                         {
                             stringEmpty = getHint.TheHint(replaceWord, holder);
                             hintCount--;
                         }
                         //check if string is empty then pass it onto CHAR input if it is not
-                        if (!string.IsNullOrEmpty(stringEmpty) && Char.IsLetter(ch) == true )
+                        if (!string.IsNullOrEmpty(stringEmpty))
                         {
                             input = stringEmpty[0];
                         }
@@ -134,7 +133,7 @@ namespace Hangman
                             Console.WriteLine("\n \nError input. Try again.");
                         }
                     }
-                    while (string.IsNullOrEmpty(stringEmpty) || (Char.IsLetter(input) == false));
+                    while (string.IsNullOrEmpty(stringEmpty));
                     //guessLetter variable to print out guessed letter in lower case
                     countRepeatedLetter = 0;
                     foreach ( var n in guessedLetter)
