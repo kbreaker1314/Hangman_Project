@@ -9,7 +9,7 @@ namespace Hangman
         static public bool CheckWin(List<string> holder)
         {
 
-            // if there are less than 1 blank space, statement return true, gamerun = false.
+            // if there are less than 1 blank space, user win the game. statement return true, gamerun = false.
             int win = 0;
             foreach ( var n in holder)
             {

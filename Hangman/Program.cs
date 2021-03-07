@@ -92,8 +92,6 @@ namespace Hangman
                     copyRealWord = WordGenerating.WordGenerate();
                 }
 
-                //possible optimization -- calling WordGenerate twice
-
                 //converting words from string to char-array and then back to string.
                 char[] copyWord = copyRealWord.ToCharArray();
                 for (int i = 0; i < copyWord.Length; i++)
@@ -111,13 +109,13 @@ namespace Hangman
                 do
                 {
                     //LEARNT TODAY CONSOLE.READLINE()[0];
-                    // ^ the input will only store the position of this placement ex: "aspq" -> store "a"
 
                     //get the first input
                     do
                     {
                         Console.Write("\n Type -/gethint for a free hint \n\nGuess a letter: ");
                         stringEmpty = Console.ReadLine();
+                        //if user input /gethint, the game will give a free letter.. each game has 3 hints limit
                         if (stringEmpty == "/gethint" && hintCount > 0)
                         {
                             stringEmpty = getHint.TheHint(replaceWord, holder);
